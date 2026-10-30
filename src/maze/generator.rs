@@ -38,6 +38,7 @@ pub fn generate(n: usize) -> Maze {
             }
         }
         generate_cells(&sets, &vertical, curr_row, &mut maze);
+        maze.display();
 
         for i in 0..n {
             match vertical[i] {
@@ -53,6 +54,7 @@ pub fn generate(n: usize) -> Maze {
             }
         }
         curr_row += 1;
+        std::thread::sleep(std::time::Duration::from_millis(500));
     }
 
     for i in 0..n - 1 {
