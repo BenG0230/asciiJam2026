@@ -16,7 +16,7 @@ impl Maze {
         }
     }
 
-    pub fn display(&self) {
+    pub fn into_map(&self) -> Vec<Vec<u8>> {
         let width = self.n * 3;
         let height = self.n * 3;
 
@@ -49,18 +49,6 @@ impl Maze {
             }
         }
 
-        println!("\x1b[40m{}\x1b[0m", String::from("#").repeat(width * 2 + 2));
-        for y in 0..height {
-            print!("\x1b[40m#");
-            for x in 0..width {
-                if map[y][x] == 1 {
-                    print!("\x1b[40m##");
-                } else {
-                    print!("\x1b[107m  ");
-                }
-            }
-            println!("#\x1b[0m");
-        }
-        println!("\x1b[40m{}\x1b[0m", String::from("#").repeat(width * 2 + 2));
+        map
     }
 }

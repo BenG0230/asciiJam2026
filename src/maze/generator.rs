@@ -11,9 +11,12 @@ pub fn generate(n: usize) -> Maze {
     let mut curr_row = 0;
 
     for _ in 0..n - 1 {
+        println!("{:?}", sets);
         for i in 0..n - 1 {
-            if sets[i + 1] != sets[i] && rand::random_bool(0.7) {
+            if sets[i + 1] != sets[i] && rand::random_bool(0.8) {
                 let change = sets[i + 1];
+
+                break_wall(i, curr_row, n, true, false, &mut maze);
 
                 for j in 0..n {
                     if sets[j] == change {
@@ -22,6 +25,7 @@ pub fn generate(n: usize) -> Maze {
                 }
             }
         }
+        println!("{:?}", sets);
 
         let mut vertical: Vec<Option<NonZeroUsize>> = vec![None; n];
 
@@ -29,16 +33,15 @@ pub fn generate(n: usize) -> Maze {
             if sets.contains(&i) {
                 loop {
                     let indices = get_indices(&sets, i);
-                    let n = indices.choose(&mut rand::rng()).unwrap();
-                    vertical[*n] = NonZero::new(sets[*n]);
-                    if rand::random_bool(0.9) {
+                    let index = indices.choose(&mut rand::rng()).unwrap();
+                    vertical[*index] = NonZero::new(sets[*index]);
+                    break_wall(*index, curr_row, n, false, true, &mut maze);
+                    if rand::random_bool(0.7) {
                         break;
                     }
                 }
             }
         }
-        generate_cells(&sets, &vertical, curr_row, &mut maze);
-        maze.display();
 
         for i in 0..n {
             match vertical[i] {
@@ -54,18 +57,15 @@ pub fn generate(n: usize) -> Maze {
             }
         }
         curr_row += 1;
-        std::thread::sleep(std::time::Duration::from_millis(500));
     }
 
     for i in 0..n - 1 {
         if sets[i + 1] != sets[i] {
+            break_wall(i, curr_row, n, true, false, &mut maze);
             sets[i + 1] = sets[i];
         }
     }
-
-    generate_cells(&sets, &vec![None; n], curr_row, &mut maze);
-
-    maze.display();
+    generate_cells(&mut maze);
 
     maze
 }
@@ -80,28 +80,25 @@ fn get_indices(sets: &Vec<usize>, n: usize) -> Vec<usize> {
     indices
 }
 
-fn generate_cells(
-    sets: &Vec<usize>,
-    vertical: &Vec<Option<NonZeroUsize>>,
-    row: usize,
-    maze: &mut Maze,
-) {
-    println!();
-    for i in 0..sets.len() {
-        // check right
-        if i > 0 && sets[i - 1] == sets[i] {
-            maze.cells[row * sets.len() + i].left = false;
-        }
+fn break_wall(i: usize, row: usize, width: usize, right: bool, bottom: bool, maze: &mut Maze) {
+    if right {
+        maze.cells[row * width + i].right = false;
+    }
+    if bottom {
+        maze.cells[row * width + i].down = false;
+    }
+}
 
-        if i < sets.len() - 1 && sets[i + 1] == sets[i] {
-            maze.cells[row * sets.len() + i].right = false;
+fn generate_cells(maze: &mut Maze) {
+    for y in 0..maze.n {
+        for x in 0..maze.n {
+            let index = x + y * maze.n;
+            if x != 0 {
+                maze.cells[index].left = maze.cells[index - 1].right;
+            }
+            if y != 0 {
+                maze.cells[index].up = maze.cells[index - maze.n].down;
+            }
         }
-
-        if let Some(_) = vertical[i] {
-            maze.cells[row * sets.len() + i].down = false;
-            maze.cells[(row + 1) * sets.len() + i].up = false;
-        }
-
-        println!("{}", maze.cells[row * sets.len() + i]);
     }
 }
