@@ -48,7 +48,6 @@ impl Maze {
                 }
             }
         }
-
         map
     }
 }

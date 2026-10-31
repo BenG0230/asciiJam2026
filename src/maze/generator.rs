@@ -11,7 +11,6 @@ pub fn generate(n: usize) -> Maze {
     let mut curr_row = 0;
 
     for _ in 0..n - 1 {
-        println!("{:?}", sets);
         for i in 0..n - 1 {
             if sets[i + 1] != sets[i] && rand::random_bool(0.8) {
                 let change = sets[i + 1];
@@ -24,8 +23,10 @@ pub fn generate(n: usize) -> Maze {
                     }
                 }
             }
+            generate_cells(&mut maze);
+            display_map(&&&maze.into_map());
+            std::thread::sleep(std::time::Duration::from_millis(50));
         }
-        println!("{:?}", sets);
 
         let mut vertical: Vec<Option<NonZeroUsize>> = vec![None; n];
 
@@ -100,5 +101,19 @@ fn generate_cells(maze: &mut Maze) {
                 maze.cells[index].up = maze.cells[index - maze.n].down;
             }
         }
+    }
+}
+
+fn display_map(map: &Vec<Vec<u8>>) {
+    println!();
+    for y in 0..map.len() {
+        for x in 0..map[0].len() {
+            if map[y][x] == 1 {
+                print!("\x1b[40m##");
+            } else {
+                print!("\x1b[107m  ");
+            }
+        }
+        println!("\x1b[0m");
     }
 }
