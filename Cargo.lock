@@ -72,6 +72,7 @@ checksum = "63b8176103e19a2643978565ca18b50549f6101881c443590420e4dc998a3c69"
 [[package]]
 name = "rustui"
 version = "0.1.0"
+source = "git+https://github.com/BenG0230/rustui#a22ed020fd648d6efb668b3ff6b501fd9380f49f"
 dependencies = [
  "libc",
  "rand",

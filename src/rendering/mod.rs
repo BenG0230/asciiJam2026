@@ -4,7 +4,7 @@ use rustui::{Colour, Engine, Modifiers, Style};
 
 use crate::maths::Vec2;
 
-pub const MAP: [[u8; 20]; 20] = [
+pub const TESTMAP: [[u8; 20]; 20] = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],

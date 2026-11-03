@@ -11,8 +11,8 @@ use crate::{maths::Vec2, rendering::Player};
 fn main() -> io::Result<()> {
     let map = maze::generate(15).into_map();
 
-    display_map(&map);
-    std::thread::sleep(std::time::Duration::from_secs(1));
+    // display_map(&map);
+    // std::thread::sleep(std::time::Duration::from_secs(1));
 
     let mut engine = Engine::new()?;
     let mut p = Player {
