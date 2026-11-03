@@ -48,6 +48,17 @@ impl Maze {
                 }
             }
         }
+
+        loop {
+            let x = rand::random_range(0..self.n * 3);
+            let y = rand::random_range(0..self.n * 3);
+
+            if map[y][x] == 0 {
+                map[y][x] = 2;
+                break;
+            }
+        }
+
         map
     }
 }
