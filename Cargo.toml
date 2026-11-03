@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 rand = "0.10.3"
-rustui = { git = "https://github.com/BenG0230/rustui" }
+# rustui = { git = "https://github.com/BenG0230/rustui" }
+rustui = { path = "../../libraries/rustui/"}

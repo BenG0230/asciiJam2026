@@ -23,9 +23,6 @@ pub fn generate(n: usize) -> Maze {
                     }
                 }
             }
-            generate_cells(&mut maze);
-            display_map(&&&maze.into_map());
-            std::thread::sleep(std::time::Duration::from_millis(50));
         }
 
         let mut vertical: Vec<Option<NonZeroUsize>> = vec![None; n];
@@ -62,8 +59,15 @@ pub fn generate(n: usize) -> Maze {
 
     for i in 0..n - 1 {
         if sets[i + 1] != sets[i] {
+            let change = sets[i + 1];
+
             break_wall(i, curr_row, n, true, false, &mut maze);
-            sets[i + 1] = sets[i];
+
+            for j in 0..n {
+                if sets[j] == change {
+                    sets[j] = sets[i]
+                }
+            }
         }
     }
     generate_cells(&mut maze);
