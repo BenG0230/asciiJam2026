@@ -38,7 +38,7 @@ pub fn raycast(p: &Player, e: &mut Engine, map: &Vec<Vec<u8>>) {
 
     let w = e.term.width;
     let fov = 90.0f32.to_radians();
-    let plane = Vec2::new(p.dir.y, -p.dir.x);
+    let plane = Vec2::new(p.dir.y, -p.dir.x) * (fov / 2.0).tan();
 
     for x in 0..w {
         let camx = 2.0 * x as f32 / w as f32 - 1.0;

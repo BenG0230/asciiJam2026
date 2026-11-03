@@ -39,6 +39,9 @@ fn main() -> io::Result<()> {
                 KeyCode::Up => {
                     p.pos = p.pos + p.dir * p_delta;
                 }
+                KeyCode::Down => {
+                    p.pos = p.pos - p.dir * p_delta;
+                }
                 _ => {}
             }
         }
@@ -50,17 +53,4 @@ fn main() -> io::Result<()> {
     }
 
     Ok(())
-}
-
-fn display_map(map: &Vec<Vec<u8>>) {
-    for y in 0..map.len() {
-        for x in 0..map[0].len() {
-            if map[y][x] == 1 {
-                print!("\x1b[40m##");
-            } else {
-                print!("\x1b[107m  ");
-            }
-        }
-        println!("\x1b[0m");
-    }
 }
